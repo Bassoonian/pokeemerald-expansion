@@ -7,6 +7,7 @@
 #include "gpu_regs.h"
 #include "graphics.h"
 #include "international_string_util.h"
+#include "line_break.h"
 #include "main.h"
 #include "malloc.h"
 #include "menu.h"
@@ -4195,7 +4196,12 @@ static void PrintMonInfo(u32 num, u32 value, u32 owned, u32 newEntry)
         description = GetSpeciesPokedexDescription(species);
     else
         description = sExpandedPlaceholder_PokedexDescription;
-    PrintInfoScreenText(description, GetStringCenterAlignXOffset(FONT_NORMAL, description, DISPLAY_WIDTH), 95);
+    
+    u8 *stringBuffer = Alloc(StringLength(description));
+    StringCopy(stringBuffer, description);
+    BreakStringAutomatic(stringBuffer, DISPLAY_WIDTH, 4, FONT_NORMAL);
+    PrintInfoScreenText(stringBuffer, GetStringCenterAlignXOffset(FONT_NORMAL, stringBuffer, DISPLAY_WIDTH), 95);
+    Free(stringBuffer);
 }
 
 void PrintMonMeasurements(u16 species, u32 owned)
