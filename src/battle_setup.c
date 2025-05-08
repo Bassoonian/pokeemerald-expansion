@@ -1076,6 +1076,12 @@ const u8 *BattleSetup_ConfigureTrainerBattle(const u8 *data)
         gNoOfApproachingTrainers = 2; // set TWO_OPPONENTS gBattleTypeFlags
         gApproachingTrainerId = 1; // prevent trainer approach
         return EventScript_DoNoIntroTrainerBattle;
+    case TRAINER_BATTLE_CONTINUE_AFTER_LOSS:
+        if (gApproachingTrainerId == 0)
+        {
+            SetMapVarsToTrainerA();
+        }
+        return EventScript_TryDoNormalTrainerBattle;
     default:
         if (gApproachingTrainerId == 0)
         {

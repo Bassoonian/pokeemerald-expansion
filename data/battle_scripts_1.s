@@ -5387,6 +5387,7 @@ BattleScript_LocalBattleLostPrintWhiteOut::
 	jumpifbattletype BATTLE_TYPE_TRAINER, BattleScript_LocalBattleLostEnd
 	printstring STRINGID_PLAYERWHITEOUT
 	waitmessage B_WAIT_TIME_LONG
+	jumpifcontinueafterloss BattleScript_LocalBattleLostPrintWhiteOutNoWhiteOut
 	getmoneyreward
 	printstring STRINGID_PLAYERWHITEOUT2
 	waitmessage B_WAIT_TIME_LONG
@@ -5401,11 +5402,16 @@ BattleScript_LocalBattleLostEnd::
 .else
 	printstring STRINGID_PLAYERWHITEOUT
 	waitmessage B_WAIT_TIME_LONG
+	jumpifcontinueafterloss BattleScript_LocalBattleLostPrintWhiteOutNoWhiteOut
 	printstring STRINGID_PLAYERWHITEOUT2
 	waitmessage B_WAIT_TIME_LONG
 BattleScript_LocalBattleLostEnd::
 	end2
 .endif
+BattleScript_LocalBattleLostPrintWhiteOutNoWhiteOut::
+ 	printstring STRINGID_PLAYERWHITEOUT3
+ 	waitmessage B_WAIT_TIME_LONG
+ 	end2
 
 BattleScript_CheckDomeDrew::
 	jumpifbyte CMP_EQUAL, gBattleOutcome, B_OUTCOME_DREW, BattleScript_LocalBattleLostEnd_

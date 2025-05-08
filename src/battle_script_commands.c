@@ -50,6 +50,7 @@
 #include "constants/abilities.h"
 #include "constants/battle_anim.h"
 #include "constants/battle_move_effects.h"
+#include "constants/battle_setup.h"
 #include "constants/battle_string_ids.h"
 #include "constants/battle_partner.h"
 #include "constants/hold_effects.h"
@@ -18680,6 +18681,16 @@ void BS_JumpIfCanGigantamax(void)
 
     if (GetMonData(GetPartyBattlerData(battler), MON_DATA_GIGANTAMAX_FACTOR)
       && GetGMaxTargetSpecies(gBattleMons[battler].species) != SPECIES_NONE)
+        gBattlescriptCurrInstr = cmd->jumpInstr;
+    else
+        gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+void BS_JumpIfNotLose(void)
+{
+    NATIVE_ARGS(const u8 *jumpInstr);
+
+    if (TRAINER_BATTLE_PARAM.mode == TRAINER_BATTLE_CONTINUE_AFTER_LOSS)
         gBattlescriptCurrInstr = cmd->jumpInstr;
     else
         gBattlescriptCurrInstr = cmd->nextInstr;

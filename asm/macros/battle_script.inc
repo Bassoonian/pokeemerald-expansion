@@ -2553,3 +2553,8 @@
 	printstring STRINGID_EMPTYSTRING3
 	waitmessage 1
 	.endm
+
+	.macro jumpifcontinueafterloss, jumpInstr:req
+	callnative BS_JumpIfNotLose
+	.4byte \jumpInstr
+	.endm
