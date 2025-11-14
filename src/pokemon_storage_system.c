@@ -6550,8 +6550,8 @@ static void GetRestrictedReleaseMoves(u16 *moves)
     for (i = 0; i < ARRAY_COUNT(sRestrictedReleaseMoves); i++)
     {
         if (sRestrictedReleaseMoves[i].mapGroup == MAP_GROUPS_COUNT
-        || (sRestrictedReleaseMoves[i].mapGroup == gSaveBlock1Ptr->location.mapGroup
-         && sRestrictedReleaseMoves[i].mapNum == gSaveBlock1Ptr->location.mapNum))
+        || (sRestrictedReleaseMoves[i].mapGroup == SAVEBLOCK_LOCATION.mapGroup
+         && sRestrictedReleaseMoves[i].mapNum == SAVEBLOCK_LOCATION.mapNum))
         {
             *moves = sRestrictedReleaseMoves[i].move;
             moves++;

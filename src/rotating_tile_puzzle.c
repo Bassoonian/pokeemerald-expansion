@@ -170,11 +170,11 @@ u16 MoveRotatingTileObjects(u8 puzzleNumber)
 
             objectEvents[i].x += x;
             objectEvents[i].y += y;
-            if (GetObjectEventIdByLocalIdAndMap(objectEvents[i].localId, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup) != OBJECT_EVENTS_COUNT)
+            if (GetObjectEventIdByLocalIdAndMap(objectEvents[i].localId, SAVEBLOCK_LOCATION.mapNum, SAVEBLOCK_LOCATION.mapGroup) != OBJECT_EVENTS_COUNT)
             {
                 SaveRotatingTileObject(i, puzzleTileNum);
                 localId = objectEvents[i].localId;
-                ScriptMovement_StartObjectMovementScript(localId, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, movementScript);
+                ScriptMovement_StartObjectMovementScript(localId, SAVEBLOCK_LOCATION.mapNum, SAVEBLOCK_LOCATION.mapGroup, movementScript);
             }
             // Never reached in normal gameplay
             else
@@ -237,7 +237,7 @@ void TurnRotatingTileObjects(void)
                 rotation = ROTATE_NONE;
         }
 
-        objectEventId = GetObjectEventIdByLocalIdAndMap(objectEvents[sRotatingTilePuzzle->objects[i].eventTemplateId].localId, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup);
+        objectEventId = GetObjectEventIdByLocalIdAndMap(objectEvents[sRotatingTilePuzzle->objects[i].eventTemplateId].localId, SAVEBLOCK_LOCATION.mapNum, SAVEBLOCK_LOCATION.mapGroup);
         if (objectEventId != OBJECT_EVENTS_COUNT)
         {
             const u8 *movementScript;
@@ -266,8 +266,8 @@ void TurnRotatingTileObjects(void)
                     continue;
                 }
                 ScriptMovement_StartObjectMovementScript(objectEvents[sRotatingTilePuzzle->objects[i].eventTemplateId].localId,
-                                                         gSaveBlock1Ptr->location.mapNum,
-                                                         gSaveBlock1Ptr->location.mapGroup,
+                                                         SAVEBLOCK_LOCATION.mapNum,
+                                                         SAVEBLOCK_LOCATION.mapGroup,
                                                          movementScript);
             }
             // Never reached
@@ -295,8 +295,8 @@ void TurnRotatingTileObjects(void)
                     continue;
                 }
                 ScriptMovement_StartObjectMovementScript(objectEvents[sRotatingTilePuzzle->objects[i].eventTemplateId].localId,
-                                                         gSaveBlock1Ptr->location.mapNum,
-                                                         gSaveBlock1Ptr->location.mapGroup,
+                                                         SAVEBLOCK_LOCATION.mapNum,
+                                                         SAVEBLOCK_LOCATION.mapGroup,
                                                          movementScript);
             }
         }

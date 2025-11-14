@@ -445,9 +445,9 @@ const u8 *GetRamScript(u8 localId, const u8 *script)
     gRamScriptRetAddr = NULL;
     if (scriptData->magic != RAM_SCRIPT_MAGIC)
         return script;
-    if (scriptData->mapGroup != gSaveBlock1Ptr->location.mapGroup)
+    if (scriptData->mapGroup != SAVEBLOCK_LOCATION.mapGroup)
         return script;
-    if (scriptData->mapNum != gSaveBlock1Ptr->location.mapNum)
+    if (scriptData->mapNum != SAVEBLOCK_LOCATION.mapNum)
         return script;
     if (scriptData->localId != localId)
         return script;

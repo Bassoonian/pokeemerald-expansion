@@ -456,7 +456,7 @@ static void AddSearchWindow(u8 width)
     struct WindowTemplate template;
     u16 y = 16;
 
-    if (sDexNavSearchDataPtr->tileY > (gSaveBlock1Ptr->pos.y + 7))
+    if (sDexNavSearchDataPtr->tileY > (SAVEBLOCK_POS.y + 7))
         y = 1;  //draw at top if chosen tile is below
 
     LoadDexNavWindowGfx(sDexNavSearchDataPtr->windowId, 0x1d5, 14 * 16);
@@ -591,8 +591,8 @@ static void RemoveDexNavWindowAndGfx(void)
 //////////////////////
 static u8 GetPlayerDistance(s16 x, s16 y)
 {
-    u16 deltaX = abs(x - (gSaveBlock1Ptr->pos.x + 7));
-    u16 deltaY = abs(y - (gSaveBlock1Ptr->pos.y + 7));
+    u16 deltaX = abs(x - (SAVEBLOCK_POS.x + 7));
+    u16 deltaY = abs(y - (SAVEBLOCK_POS.y + 7));
     return deltaX + deltaY;
 }
 
@@ -605,8 +605,8 @@ static void DexNavProximityUpdate(void)
 static bool8 DexNavPickTile(enum EncounterType environment, u8 areaX, u8 areaY, bool8 smallScan)
 {
     // area of map to cover starting from camera position {-7, -7}
-    s16 topX = gSaveBlock1Ptr->pos.x - SCANSTART_X + (smallScan * 5);
-    s16 topY = gSaveBlock1Ptr->pos.y - SCANSTART_Y + (smallScan * 5);
+    s16 topX = SAVEBLOCK_POS.x - SCANSTART_X + (smallScan * 5);
+    s16 topY = SAVEBLOCK_POS.y - SCANSTART_Y + (smallScan * 5);
     s16 botX = topX + areaX;
     s16 botY = topY + areaY;
     u8 i;
@@ -705,7 +705,7 @@ static bool8 DexNavPickTile(enum EncounterType environment, u8 areaX, u8 areaY, 
         }
 
         topY++;
-        topX = gSaveBlock1Ptr->pos.x - SCANSTART_X + (smallScan * 5);
+        topX = SAVEBLOCK_POS.x - SCANSTART_X + (smallScan * 5);
     }
 
     if (iter > 0)
@@ -932,8 +932,8 @@ static void DexNavUpdateDirectionArrow(void)
 {
     u16 tileX = sDexNavSearchDataPtr->tileX;
     u16 tileY = sDexNavSearchDataPtr->tileY;
-    u16 playerX = gSaveBlock1Ptr->pos.x + 7;
-    u16 playerY = gSaveBlock1Ptr->pos.y + 7;
+    u16 playerX = SAVEBLOCK_POS.x + 7;
+    u16 playerY = SAVEBLOCK_POS.y + 7;
     u16 deltaX = abs(tileX - playerX);
     u16 deltaY = abs(tileY - playerY);
     const u8 *str;
@@ -2614,8 +2614,8 @@ bool8 TryFindHiddenPokemon(void)
             return FALSE;
 
         // exclamation mark over player
-        gFieldEffectArguments[0] = gSaveBlock1Ptr->pos.x;
-        gFieldEffectArguments[1] = gSaveBlock1Ptr->pos.y;
+        gFieldEffectArguments[0] = SAVEBLOCK_POS.x;
+        gFieldEffectArguments[1] = SAVEBLOCK_POS.y;
         gFieldEffectArguments[2] = gSprites[gPlayerAvatar.spriteId].subpriority - 1;
         gFieldEffectArguments[3] = 2;
         ObjectEventGetLocalIdAndMap(&gObjectEvents[gPlayerAvatar.objectEventId], &gFieldEffectArguments[0], &gFieldEffectArguments[1], &gFieldEffectArguments[2]);

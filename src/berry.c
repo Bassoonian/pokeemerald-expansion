@@ -2145,8 +2145,8 @@ void ObjectEventInteractionGetBerryTreeData(void)
     berry = GetBerryTypeByBerryTreeId(id);
     AllowBerryTreeGrowth(id);
     localId = gSpecialVar_LastTalked;
-    num = gSaveBlock1Ptr->location.mapNum;
-    group = gSaveBlock1Ptr->location.mapGroup;
+    num = SAVEBLOCK_LOCATION.mapNum;
+    group = SAVEBLOCK_LOCATION.mapGroup;
     if (IsBerryTreeSparkling(localId, num, group))
         gSpecialVar_0x8004 = BERRY_STAGE_SPARKLING;
     else
@@ -2234,7 +2234,7 @@ void ObjectEventInteractionPickBerryTree(void)
 void ObjectEventInteractionRemoveBerryTree(void)
 {
     RemoveBerryTree(GetObjectEventBerryTreeId(gSelectedObjectEvent));
-    SetBerryTreeJustPicked(gSpecialVar_LastTalked, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup);
+    SetBerryTreeJustPicked(gSpecialVar_LastTalked, SAVEBLOCK_LOCATION.mapNum, SAVEBLOCK_LOCATION.mapGroup);
 }
 
 void ObjectEventInteractionPullBerryWeed(void)

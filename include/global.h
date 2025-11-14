@@ -1171,6 +1171,13 @@ struct SaveBlock1
 
 extern struct SaveBlock1 *gSaveBlock1Ptr;
 
+#define SAVEBLOCK_POS                   gSaveBlock1Ptr->pos
+#define SAVEBLOCK_LOCATION              gSaveBlock1Ptr->location
+#define SAVEBLOCK_CONTINUE_GAME_WARP    gSaveBlock1Ptr->continueGameWarp
+#define SAVEBLOCK_DYNAMIC_WARP          gSaveBlock1Ptr->dynamicWarp
+#define SAVEBLOCK_LAST_HEAL_LOCATION    gSaveBlock1Ptr->lastHealLocation
+#define SAVEBLOCK_ESCAPE_WARP           gSaveBlock1Ptr->escapeWarp
+
 struct MapPosition
 {
     s16 x;

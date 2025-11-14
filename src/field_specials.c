@@ -543,22 +543,22 @@ void SpawnLinkPartnerObjectEvent(void)
     {
     case DIR_WEST:
         j = 2;
-        x = gSaveBlock1Ptr->pos.x - 1;
-        y = gSaveBlock1Ptr->pos.y;
+        x = SAVEBLOCK_POS.x - 1;
+        y = SAVEBLOCK_POS.y;
         break;
     case DIR_NORTH:
         j = 1;
-        x = gSaveBlock1Ptr->pos.x;
-        y = gSaveBlock1Ptr->pos.y - 1;
+        x = SAVEBLOCK_POS.x;
+        y = SAVEBLOCK_POS.y - 1;
         break;
     case DIR_EAST:
-        x = gSaveBlock1Ptr->pos.x + 1;
-        y = gSaveBlock1Ptr->pos.y;
+        x = SAVEBLOCK_POS.x + 1;
+        y = SAVEBLOCK_POS.y;
         break;
     case DIR_SOUTH:
         j = 3;
-        x = gSaveBlock1Ptr->pos.x;
-        y = gSaveBlock1Ptr->pos.y + 1;
+        x = SAVEBLOCK_POS.x;
+        y = SAVEBLOCK_POS.y + 1;
     }
     for (i = 0; i < gSpecialVar_0x8004; i++)
     {
@@ -605,7 +605,7 @@ static void LoadLinkPartnerObjectEventSpritePalette(u16 graphicsId, u8 localEven
         graphicsId == OBJ_EVENT_GFX_RIVAL_BRENDAN_NORMAL ||
         graphicsId == OBJ_EVENT_GFX_RIVAL_MAY_NORMAL)
     {
-        u8 obj = GetObjectEventIdByLocalIdAndMap(localEventId, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup);
+        u8 obj = GetObjectEventIdByLocalIdAndMap(localEventId, SAVEBLOCK_LOCATION.mapNum, SAVEBLOCK_LOCATION.mapGroup);
         if (obj != OBJECT_EVENTS_COUNT)
         {
             u8 spriteId = gObjectEvents[obj].spriteId;
@@ -917,8 +917,8 @@ void ShowFieldMessageStringVar4(void)
 
 void StorePlayerCoordsInVars(void)
 {
-    gSpecialVar_0x8004 = gSaveBlock1Ptr->pos.x;
-    gSpecialVar_0x8005 = gSaveBlock1Ptr->pos.y;
+    gSpecialVar_0x8004 = SAVEBLOCK_POS.x;
+    gSpecialVar_0x8005 = SAVEBLOCK_POS.y;
 }
 
 u8 GetPlayerTrainerIdOnesDigit(void)
@@ -1100,7 +1100,7 @@ static void PCTurnOnEffect_SetMetatile(s16 isScreenOn, s8 dx, s8 dy)
         else if (gSpecialVar_0x8004 == PC_LOCATION_MAYS_HOUSE)
             metatileId = METATILE_BrendansMaysHouse_MayPC_On;
     }
-    MapGridSetMetatileIdAt(gSaveBlock1Ptr->pos.x + dx + MAP_OFFSET, gSaveBlock1Ptr->pos.y + dy + MAP_OFFSET, metatileId | MAPGRID_IMPASSABLE);
+    MapGridSetMetatileIdAt(SAVEBLOCK_POS.x + dx + MAP_OFFSET, SAVEBLOCK_POS.y + dy + MAP_OFFSET, metatileId | MAPGRID_IMPASSABLE);
 }
 
 // For this special, gSpecialVar_0x8004 is expected to be some PC_LOCATION_* value.
@@ -1143,7 +1143,7 @@ static void PCTurnOffEffect(void)
     else if (gSpecialVar_0x8004 == PC_LOCATION_MAYS_HOUSE)
         metatileId = METATILE_BrendansMaysHouse_MayPC_Off;
 
-    MapGridSetMetatileIdAt(gSaveBlock1Ptr->pos.x + dx + MAP_OFFSET, gSaveBlock1Ptr->pos.y + dy + MAP_OFFSET, metatileId | MAPGRID_IMPASSABLE);
+    MapGridSetMetatileIdAt(SAVEBLOCK_POS.x + dx + MAP_OFFSET, SAVEBLOCK_POS.y + dy + MAP_OFFSET, metatileId | MAPGRID_IMPASSABLE);
     DrawWholeMapView();
 }
 
@@ -1290,8 +1290,8 @@ void SpawnCameraObject(void)
     u8 obj = SpawnSpecialObjectEventParameterized(OBJ_EVENT_GFX_BOY_1,
                                                   MOVEMENT_TYPE_FACE_DOWN,
                                                   LOCALID_CAMERA,
-                                                  gSaveBlock1Ptr->pos.x + MAP_OFFSET,
-                                                  gSaveBlock1Ptr->pos.y + MAP_OFFSET,
+                                                  SAVEBLOCK_POS.x + MAP_OFFSET,
+                                                  SAVEBLOCK_POS.y + MAP_OFFSET,
                                                   3); // elevation
     gObjectEvents[obj].invisible = TRUE;
     CameraObjectSetFollowedSpriteId(gObjectEvents[obj].spriteId);
@@ -1300,7 +1300,7 @@ void SpawnCameraObject(void)
 void RemoveCameraObject(void)
 {
     CameraObjectSetFollowedSpriteId(GetPlayerAvatarSpriteId());
-    RemoveObjectEventByLocalIdAndMap(LOCALID_CAMERA, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup);
+    RemoveObjectEventByLocalIdAndMap(LOCALID_CAMERA, SAVEBLOCK_LOCATION.mapNum, SAVEBLOCK_LOCATION.mapGroup);
 }
 
 u8 GetPokeblockNameByMonNature(void)
@@ -1435,8 +1435,8 @@ bool8 Special_AreLeadMonEVsMaxedOut(void)
 u8 TryUpdateRusturfTunnelState(void)
 {
     if (!FlagGet(FLAG_RUSTURF_TUNNEL_OPENED)
-        && gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_RUSTURF_TUNNEL)
-        && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_RUSTURF_TUNNEL))
+        && SAVEBLOCK_LOCATION.mapGroup == MAP_GROUP(MAP_RUSTURF_TUNNEL)
+        && SAVEBLOCK_LOCATION.mapNum == MAP_NUM(MAP_RUSTURF_TUNNEL))
     {
         if (FlagGet(FLAG_HIDE_RUSTURF_TUNNEL_ROCK_1))
         {
@@ -1699,8 +1699,8 @@ bool8 IsBadEggInParty(void)
 
 bool8 InMultiPartnerRoom(void)
 {
-    if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_BATTLE_FRONTIER_BATTLE_TOWER_MULTI_PARTNER_ROOM)
-        && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_BATTLE_FRONTIER_BATTLE_TOWER_MULTI_PARTNER_ROOM) &&
+    if (SAVEBLOCK_LOCATION.mapGroup == MAP_GROUP(MAP_BATTLE_FRONTIER_BATTLE_TOWER_MULTI_PARTNER_ROOM)
+        && SAVEBLOCK_LOCATION.mapNum == MAP_NUM(MAP_BATTLE_FRONTIER_BATTLE_TOWER_MULTI_PARTNER_ROOM) &&
         VarGet(VAR_FRONTIER_BATTLE_MODE) == FRONTIER_MODE_MULTIS)
         return TRUE;
     return FALSE;
@@ -1784,7 +1784,7 @@ static const u16 sElevatorWindowTiles_Descending[ELEVATOR_WINDOW_HEIGHT][ELEVATO
 void SetDeptStoreFloor(void)
 {
     enum DeptStoreFloorNumber deptStoreFloor;
-    switch (gSaveBlock1Ptr->dynamicWarp.mapNum)
+    switch (SAVEBLOCK_DYNAMIC_WARP.mapNum)
     {
     case MAP_NUM(MAP_LILYCOVE_CITY_DEPARTMENT_STORE_1F):
         deptStoreFloor = DEPT_STORE_FLOORNUM_1F;
@@ -1816,9 +1816,9 @@ u16 GetDeptStoreDefaultFloorChoice(void)
     sLilycoveDeptStore_NeverRead = 0;
     sLilycoveDeptStore_DefaultFloorChoice = 0;
 
-    if (gSaveBlock1Ptr->dynamicWarp.mapGroup == MAP_GROUP(MAP_LILYCOVE_CITY_DEPARTMENT_STORE_1F))
+    if (SAVEBLOCK_DYNAMIC_WARP.mapGroup == MAP_GROUP(MAP_LILYCOVE_CITY_DEPARTMENT_STORE_1F))
     {
-        switch (gSaveBlock1Ptr->dynamicWarp.mapNum)
+        switch (SAVEBLOCK_DYNAMIC_WARP.mapNum)
         {
         case MAP_NUM(MAP_LILYCOVE_CITY_DEPARTMENT_STORE_5F):
             sLilycoveDeptStore_NeverRead = 0;
@@ -2081,7 +2081,7 @@ bool8 UsedPokemonCenterWarp(void)
 
 bool32 PlayerNotAtTrainerHillEntrance(void)
 {
-    if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_TRAINER_HILL_ENTRANCE) && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_TRAINER_HILL_ENTRANCE))
+    if (SAVEBLOCK_LOCATION.mapGroup == MAP_GROUP(MAP_TRAINER_HILL_ENTRANCE) && SAVEBLOCK_LOCATION.mapNum == MAP_NUM(MAP_TRAINER_HILL_ENTRANCE))
         return FALSE;
 
     return TRUE;
@@ -3325,7 +3325,7 @@ static void WaitForDeoxysRockMovement(u8 taskId)
 void IncrementBirthIslandRockStepCount(void)
 {
     u16 stepCount = VarGet(VAR_DEOXYS_ROCK_STEP_COUNT);
-    if (gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_BIRTH_ISLAND_EXTERIOR) && gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_BIRTH_ISLAND_EXTERIOR))
+    if (SAVEBLOCK_LOCATION.mapNum == MAP_NUM(MAP_BIRTH_ISLAND_EXTERIOR) && SAVEBLOCK_LOCATION.mapGroup == MAP_GROUP(MAP_BIRTH_ISLAND_EXTERIOR))
     {
         if (++stepCount > 99)
             VarSet(VAR_DEOXYS_ROCK_STEP_COUNT, 0);
@@ -3481,9 +3481,9 @@ bool8 AbnormalWeatherHasExpired(void)
     if (++steps > 999)
     {
         VarSet(VAR_ABNORMAL_WEATHER_STEP_COUNTER, 0);
-        if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_UNDERWATER_MARINE_CAVE))
+        if (SAVEBLOCK_LOCATION.mapGroup == MAP_GROUP(MAP_UNDERWATER_MARINE_CAVE))
         {
-            switch (gSaveBlock1Ptr->location.mapNum)
+            switch (SAVEBLOCK_LOCATION.mapNum)
             {
             case MAP_NUM(MAP_UNDERWATER_MARINE_CAVE):
             case MAP_NUM(MAP_MARINE_CAVE_ENTRANCE):
@@ -3497,9 +3497,9 @@ bool8 AbnormalWeatherHasExpired(void)
             }
         }
 
-        if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_UNDERWATER_ROUTE127))
+        if (SAVEBLOCK_LOCATION.mapGroup == MAP_GROUP(MAP_UNDERWATER_ROUTE127))
         {
-            switch (gSaveBlock1Ptr->location.mapNum)
+            switch (SAVEBLOCK_LOCATION.mapNum)
             {
             case MAP_NUM(MAP_UNDERWATER_ROUTE127):
             case MAP_NUM(MAP_UNDERWATER_ROUTE129):
@@ -3512,8 +3512,8 @@ bool8 AbnormalWeatherHasExpired(void)
             }
         }
 
-        if (gSaveBlock1Ptr->location.mapNum == sAbnormalWeatherMapNumbers[abnormalWeather - 1] &&
-            gSaveBlock1Ptr->location.mapGroup == 0)
+        if (SAVEBLOCK_LOCATION.mapNum == sAbnormalWeatherMapNumbers[abnormalWeather - 1] &&
+            SAVEBLOCK_LOCATION.mapGroup == 0)
         {
             return TRUE;
         }
@@ -3557,9 +3557,9 @@ u32 GetMartEmployeeObjectEventId(void)
     u8 i;
     for (i = 0; i < ARRAY_COUNT(sPokeMarts); i++)
     {
-        if (gSaveBlock1Ptr->location.mapGroup == sPokeMarts[i][0])
+        if (SAVEBLOCK_LOCATION.mapGroup == sPokeMarts[i][0])
         {
-            if (gSaveBlock1Ptr->location.mapNum == sPokeMarts[i][1])
+            if (SAVEBLOCK_LOCATION.mapNum == sPokeMarts[i][1])
                 return sPokeMarts[i][2];
         }
     }
@@ -3801,8 +3801,8 @@ static void Task_CloseBattlePikeCurtain(u8 taskId)
         {
             for (x = 0; x < CURTAIN_WIDTH; x++)
             {
-                MapGridSetMetatileIdAt(gSaveBlock1Ptr->pos.x + x + MAP_OFFSET - 1,
-                                       gSaveBlock1Ptr->pos.y + y + MAP_OFFSET - 3,
+                MapGridSetMetatileIdAt(SAVEBLOCK_POS.x + x + MAP_OFFSET - 1,
+                                       SAVEBLOCK_POS.y + y + MAP_OFFSET - 3,
                                        (x + METATILE_BattlePike_CurtainFrames_Start) + (y * METATILE_ROW_WIDTH) + (tCurrentFrame * CURTAIN_HEIGHT * METATILE_ROW_WIDTH));
             }
         }
@@ -3831,7 +3831,7 @@ void GetBattlePyramidHint(void)
 // Used to avoid a potential softlock if the player respawns on Dewford with no way off
 void ResetHealLocationFromDewford(void)
 {
-    if (gSaveBlock1Ptr->lastHealLocation.mapGroup == MAP_GROUP(MAP_DEWFORD_TOWN) && gSaveBlock1Ptr->lastHealLocation.mapNum == MAP_NUM(MAP_DEWFORD_TOWN))
+    if (SAVEBLOCK_LAST_HEAL_LOCATION.mapGroup == MAP_GROUP(MAP_DEWFORD_TOWN) && SAVEBLOCK_LAST_HEAL_LOCATION.mapNum == MAP_NUM(MAP_DEWFORD_TOWN))
         SetLastHealLocationWarp(HEAL_LOCATION_PETALBURG_CITY);
 }
 
@@ -3864,7 +3864,7 @@ bool8 InPokemonCenter(void)
     };
 
     int i;
-    u16 map = (gSaveBlock1Ptr->location.mapGroup << 8) + gSaveBlock1Ptr->location.mapNum;
+    u16 map = (SAVEBLOCK_LOCATION.mapGroup << 8) + SAVEBLOCK_LOCATION.mapNum;
 
     for (i = 0; sPokemonCenters[i] != MAP_UNDEFINED; i++)
     {

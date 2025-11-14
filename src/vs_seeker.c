@@ -215,7 +215,7 @@ void VsSeekerResetObjectMovementAfterChargeComplete(void)
             continue;
 
         movementType = GetRandomFaceDirectionMovementType();
-        TryGetObjectEventIdByLocalIdAndMap(templates[i].localId, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, &objEventId);
+        TryGetObjectEventIdByLocalIdAndMap(templates[i].localId, SAVEBLOCK_LOCATION.mapNum, SAVEBLOCK_LOCATION.mapGroup, &objEventId);
         objectEvent = &gObjectEvents[objEventId];
 
         if (!ObjectEventIdIsSane(objEventId))
@@ -365,7 +365,7 @@ static void Task_VsSeeker_PlaySoundAndGetResponseCode(u8 taskId)
         data[2] = 0;
         VsSeekerResetInBagStepCounter();
         sVsSeeker->responseCode = GetVsSeekerResponseInArea();
-        ScriptMovement_StartObjectMovementScript(0xFF, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, sMovementScript_Wait48);
+        ScriptMovement_StartObjectMovementScript(0xFF, SAVEBLOCK_LOCATION.mapNum, SAVEBLOCK_LOCATION.mapGroup, sMovementScript_Wait48);
         gTasks[taskId].func = Task_VsSeeker_ShowResponseToPlayer;
     }
 }
@@ -388,7 +388,7 @@ static void GatherNearbyTrainerInfo(void)
         sVsSeeker->trainerInfo[vsSeekerObjectIdx].script = templates[objectEventIdx].script;
         sVsSeeker->trainerInfo[vsSeekerObjectIdx].trainerIdx = trainerIdx;
         sVsSeeker->trainerInfo[vsSeekerObjectIdx].localId = templates[objectEventIdx].localId;
-        TryGetObjectEventIdByLocalIdAndMap(templates[objectEventIdx].localId, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, &objectEventId);
+        TryGetObjectEventIdByLocalIdAndMap(templates[objectEventIdx].localId, SAVEBLOCK_LOCATION.mapNum, SAVEBLOCK_LOCATION.mapGroup, &objectEventId);
         sVsSeeker->trainerInfo[vsSeekerObjectIdx].objectEventId = objectEventId;
         sVsSeeker->trainerInfo[vsSeekerObjectIdx].xCoord = gObjectEvents[objectEventId].currentCoords.x - 7;
         sVsSeeker->trainerInfo[vsSeekerObjectIdx].yCoord = gObjectEvents[objectEventId].currentCoords.y - 7;
@@ -400,7 +400,7 @@ static void GatherNearbyTrainerInfo(void)
 
 static void Task_VsSeeker_ShowResponseToPlayer(u8 taskId)
 {
-    if (!ScriptMovement_IsObjectMovementFinished(0xFF, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup))
+    if (!ScriptMovement_IsObjectMovementFinished(0xFF, SAVEBLOCK_LOCATION.mapNum, SAVEBLOCK_LOCATION.mapGroup))
         return;
 
     if (sVsSeeker->responseCode == VSSEEKER_RESPONSE_NO_RESPONSE)
@@ -536,7 +536,7 @@ void ClearRematchMovementByTrainerId(void)
         || vsSeekerDataIdx != TrainerIdToRematchTableId(gRematchTable, GetTrainerFlagFromScript(objectEventTemplates[i].script)))
             continue;
 
-        TryGetObjectEventIdByLocalIdAndMap(objectEventTemplates[i].localId, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, &objEventId);
+        TryGetObjectEventIdByLocalIdAndMap(objectEventTemplates[i].localId, SAVEBLOCK_LOCATION.mapNum, SAVEBLOCK_LOCATION.mapGroup, &objEventId);
         objectEvent = &gObjectEvents[objEventId];
         TryOverrideTemplateCoordsForObjectEvent(objectEvent, sFaceDirectionMovementTypeByFacingDirection[objectEvent->facingDirection]);
 
@@ -797,7 +797,7 @@ static u32 GetRematchableTrainerLocalId(void)
 static void StartTrainerObjectMovementScript(struct VsSeekerTrainerInfo * trainerInfo, const u8 * script)
 {
     UnfreezeObjectEvent(&gObjectEvents[trainerInfo->objectEventId]);
-    ScriptMovement_StartObjectMovementScript(trainerInfo->localId, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, script);
+    ScriptMovement_StartObjectMovementScript(trainerInfo->localId, SAVEBLOCK_LOCATION.mapNum, SAVEBLOCK_LOCATION.mapGroup, script);
 }
 
 static u8 GetCurVsSeekerResponse(s32 vsSeekerIdx, u16 trainerIdx)

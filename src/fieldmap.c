@@ -429,8 +429,8 @@ void SaveMapView(void)
     int width;
     mapView = gSaveBlock1Ptr->mapView;
     width = gBackupMapLayout.width;
-    x = gSaveBlock1Ptr->pos.x;
-    y = gSaveBlock1Ptr->pos.y;
+    x = SAVEBLOCK_POS.x;
+    y = SAVEBLOCK_POS.y;
     for (i = y; i < y + MAP_OFFSET_H; i++)
     {
         for (j = x; j < x + MAP_OFFSET_W; j++)
@@ -476,8 +476,8 @@ static void LoadSavedMapView(void)
     if (!SavedMapViewIsEmpty())
     {
         width = gBackupMapLayout.width;
-        x = gSaveBlock1Ptr->pos.x;
-        y = gSaveBlock1Ptr->pos.y;
+        x = SAVEBLOCK_POS.x;
+        y = SAVEBLOCK_POS.y;
         for (i = y; i < y + MAP_OFFSET_H; i++)
         {
             if (i == y && i != 0)
@@ -520,8 +520,8 @@ static void MoveMapViewToBackup(u8 direction)
     width = gBackupMapLayout.width;
     r9 = 0;
     r8 = 0;
-    x0 = gSaveBlock1Ptr->pos.x;
-    y0 = gSaveBlock1Ptr->pos.y;
+    x0 = SAVEBLOCK_POS.x;
+    y0 = SAVEBLOCK_POS.y;
     x2 = MAP_OFFSET_W;
     y2 = MAP_OFFSET_H;
     switch (direction)
@@ -602,14 +602,14 @@ int GetMapBorderIdAt(int x, int y)
 
 int GetPostCameraMoveMapBorderId(int x, int y)
 {
-    return GetMapBorderIdAt(gSaveBlock1Ptr->pos.x + MAP_OFFSET + x, gSaveBlock1Ptr->pos.y + MAP_OFFSET + y);
+    return GetMapBorderIdAt(SAVEBLOCK_POS.x + MAP_OFFSET + x, SAVEBLOCK_POS.y + MAP_OFFSET + y);
 }
 
 bool32 CanCameraMoveInDirection(int direction)
 {
     int x, y;
-    x = gSaveBlock1Ptr->pos.x + MAP_OFFSET + gDirectionToVectors[direction].x;
-    y = gSaveBlock1Ptr->pos.y + MAP_OFFSET + gDirectionToVectors[direction].y;
+    x = SAVEBLOCK_POS.x + MAP_OFFSET + gDirectionToVectors[direction].x;
+    y = SAVEBLOCK_POS.y + MAP_OFFSET + gDirectionToVectors[direction].y;
 
     if (GetMapBorderIdAt(x, y) == CONNECTION_INVALID)
         return FALSE;
@@ -624,20 +624,20 @@ static void SetPositionFromConnection(const struct MapConnection *connection, in
     switch (direction)
     {
     case CONNECTION_EAST:
-        gSaveBlock1Ptr->pos.x = -x;
-        gSaveBlock1Ptr->pos.y -= connection->offset;
+        SAVEBLOCK_POS.x = -x;
+        SAVEBLOCK_POS.y -= connection->offset;
         break;
     case CONNECTION_WEST:
-        gSaveBlock1Ptr->pos.x = mapHeader->mapLayout->width;
-        gSaveBlock1Ptr->pos.y -= connection->offset;
+        SAVEBLOCK_POS.x = mapHeader->mapLayout->width;
+        SAVEBLOCK_POS.y -= connection->offset;
         break;
     case CONNECTION_SOUTH:
-        gSaveBlock1Ptr->pos.x -= connection->offset;
-        gSaveBlock1Ptr->pos.y = -y;
+        SAVEBLOCK_POS.x -= connection->offset;
+        SAVEBLOCK_POS.y = -y;
         break;
     case CONNECTION_NORTH:
-        gSaveBlock1Ptr->pos.x -= connection->offset;
-        gSaveBlock1Ptr->pos.y = mapHeader->mapLayout->height;
+        SAVEBLOCK_POS.x -= connection->offset;
+        SAVEBLOCK_POS.y = mapHeader->mapLayout->height;
         break;
     default:
         DebugPrintfLevel(MGBA_LOG_WARN, "SetPositionFromConnection was passed an invalid direction (%d)!", direction);
@@ -654,25 +654,25 @@ bool8 CameraMove(int x, int y)
     direction = GetPostCameraMoveMapBorderId(x, y);
     if (direction == CONNECTION_NONE || direction == CONNECTION_INVALID)
     {
-        gSaveBlock1Ptr->pos.x += x;
-        gSaveBlock1Ptr->pos.y += y;
+        SAVEBLOCK_POS.x += x;
+        SAVEBLOCK_POS.y += y;
     }
     else
     {
         SaveMapView();
         ClearMirageTowerPulseBlendEffect();
-        old_x = gSaveBlock1Ptr->pos.x;
-        old_y = gSaveBlock1Ptr->pos.y;
-        connection = GetIncomingConnection(direction, gSaveBlock1Ptr->pos.x, gSaveBlock1Ptr->pos.y);
+        old_x = SAVEBLOCK_POS.x;
+        old_y = SAVEBLOCK_POS.y;
+        connection = GetIncomingConnection(direction, SAVEBLOCK_POS.x, SAVEBLOCK_POS.y);
         if (connection)
         {
             SetPositionFromConnection(connection, direction, x, y);
             LoadMapFromCameraTransition(connection->mapGroup, connection->mapNum);
             gCamera.active = TRUE;
-            gCamera.x = old_x - gSaveBlock1Ptr->pos.x;
-            gCamera.y = old_y - gSaveBlock1Ptr->pos.y;
-            gSaveBlock1Ptr->pos.x += x;
-            gSaveBlock1Ptr->pos.y += y;
+            gCamera.x = old_x - SAVEBLOCK_POS.x;
+            gCamera.y = old_y - SAVEBLOCK_POS.y;
+            SAVEBLOCK_POS.x += x;
+            SAVEBLOCK_POS.y += y;
             MoveMapViewToBackup(direction);
         }
         else
@@ -798,26 +798,26 @@ const struct MapConnection *GetMapConnectionAtPos(s16 x, s16 y)
 
 void SetCameraFocusCoords(u16 x, u16 y)
 {
-    gSaveBlock1Ptr->pos.x = x - MAP_OFFSET;
-    gSaveBlock1Ptr->pos.y = y - MAP_OFFSET;
+    SAVEBLOCK_POS.x = x - MAP_OFFSET;
+    SAVEBLOCK_POS.y = y - MAP_OFFSET;
 }
 
 void GetCameraFocusCoords(u16 *x, u16 *y)
 {
-    *x = gSaveBlock1Ptr->pos.x + MAP_OFFSET;
-    *y = gSaveBlock1Ptr->pos.y + MAP_OFFSET;
+    *x = SAVEBLOCK_POS.x + MAP_OFFSET;
+    *y = SAVEBLOCK_POS.y + MAP_OFFSET;
 }
 
 static void UNUSED SetCameraCoords(u16 x, u16 y)
 {
-    gSaveBlock1Ptr->pos.x = x;
-    gSaveBlock1Ptr->pos.y = y;
+    SAVEBLOCK_POS.x = x;
+    SAVEBLOCK_POS.y = y;
 }
 
 void GetCameraCoords(u16 *x, u16 *y)
 {
-    *x = gSaveBlock1Ptr->pos.x;
-    *y = gSaveBlock1Ptr->pos.y;
+    *x = SAVEBLOCK_POS.x;
+    *y = SAVEBLOCK_POS.y;
 }
 
 void MapGridSetMetatileImpassabilityAt(int x, int y, bool32 impassable)

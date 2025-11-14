@@ -1143,8 +1143,8 @@ bool8 ScrCmd_getplayerxy(struct ScriptContext *ctx)
     Script_RequestWriteVar(varIdX);
     Script_RequestWriteVar(varIdY);
 
-    *pX = gSaveBlock1Ptr->pos.x;
-    *pY = gSaveBlock1Ptr->pos.y;
+    *pX = SAVEBLOCK_POS.x;
+    *pY = SAVEBLOCK_POS.y;
     return FALSE;
 }
 
@@ -1301,7 +1301,7 @@ bool8 ScrCmd_applymovement(struct ScriptContext *ctx)
     }
 
     gObjectEvents[GetObjectEventIdByLocalId(localId)].directionOverwrite = DIR_NONE;
-    ScriptMovement_StartObjectMovementScript(localId, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, movementScript);
+    ScriptMovement_StartObjectMovementScript(localId, SAVEBLOCK_LOCATION.mapNum, SAVEBLOCK_LOCATION.mapGroup, movementScript);
     sMovingNpcId = localId;
     if (localId != OBJ_EVENT_ID_FOLLOWER
      && !FlagGet(FLAG_SAFE_FOLLOWER_MOVEMENT)
@@ -1349,8 +1349,8 @@ bool8 ScrCmd_waitmovement(struct ScriptContext *ctx)
 
     if (localId != LOCALID_NONE)
         sMovingNpcId = localId;
-    sMovingNpcMapGroup = gSaveBlock1Ptr->location.mapGroup;
-    sMovingNpcMapNum = gSaveBlock1Ptr->location.mapNum;
+    sMovingNpcMapGroup = SAVEBLOCK_LOCATION.mapGroup;
+    sMovingNpcMapNum = SAVEBLOCK_LOCATION.mapNum;
     SetupNativeScript(ctx, WaitForMovementFinish);
     return TRUE;
 }
@@ -1379,7 +1379,7 @@ bool8 ScrCmd_removeobject(struct ScriptContext *ctx)
 
     Script_RequestEffects(SCREFF_V1 | SCREFF_SAVE | SCREFF_HARDWARE);
 
-    RemoveObjectEventByLocalIdAndMap(localId, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup);
+    RemoveObjectEventByLocalIdAndMap(localId, SAVEBLOCK_LOCATION.mapNum, SAVEBLOCK_LOCATION.mapGroup);
     return FALSE;
 }
 
@@ -1401,7 +1401,7 @@ bool8 ScrCmd_addobject(struct ScriptContext *ctx)
 
     Script_RequestEffects(SCREFF_V1 | SCREFF_HARDWARE);
 
-    TrySpawnObjectEvent(objectId, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup);
+    TrySpawnObjectEvent(objectId, SAVEBLOCK_LOCATION.mapNum, SAVEBLOCK_LOCATION.mapGroup);
     return FALSE;
 }
 
@@ -1429,7 +1429,7 @@ bool8 ScrCmd_setobjectxy(struct ScriptContext *ctx)
     if (localId == OBJ_EVENT_ID_NPC_FOLLOWER)
         SetFollowerNPCData(FNPC_DATA_COME_OUT_DOOR, FNPC_DOOR_NO_POS_SET);
 
-    TryMoveObjectEventToMapCoords(localId, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, x, y);
+    TryMoveObjectEventToMapCoords(localId, SAVEBLOCK_LOCATION.mapNum, SAVEBLOCK_LOCATION.mapGroup, x, y);
     return FALSE;
 }
 
@@ -1451,7 +1451,7 @@ bool8 ScrCmd_copyobjectxytoperm(struct ScriptContext *ctx)
 
     Script_RequestEffects(SCREFF_V1 | SCREFF_SAVE);
 
-    TryOverrideObjectEventTemplateCoords(localId, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup);
+    TryOverrideObjectEventTemplateCoords(localId, SAVEBLOCK_LOCATION.mapNum, SAVEBLOCK_LOCATION.mapGroup);
     return FALSE;
 }
 
@@ -1542,7 +1542,7 @@ bool8 ScrCmd_turnobject(struct ScriptContext *ctx)
 
     Script_RequestEffects(SCREFF_V1 | SCREFF_HARDWARE);
 
-    ObjectEventTurnByLocalIdAndMap(localId, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, direction);
+    ObjectEventTurnByLocalIdAndMap(localId, SAVEBLOCK_LOCATION.mapNum, SAVEBLOCK_LOCATION.mapGroup, direction);
     return FALSE;
 }
 

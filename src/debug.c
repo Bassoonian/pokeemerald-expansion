@@ -3957,7 +3957,7 @@ static void DebugAction_BerryFunctions_ClearAll(u8 taskId)
         if (gObjectEvents[i].movementType == MOVEMENT_TYPE_BERRY_TREE_GROWTH)
         {
             RemoveBerryTree(GetObjectEventBerryTreeId(i));
-            SetBerryTreeJustPicked(gObjectEvents[i].localId, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup);
+            SetBerryTreeJustPicked(gObjectEvents[i].localId, SAVEBLOCK_LOCATION.mapNum, SAVEBLOCK_LOCATION.mapGroup);
         }
     }
 

@@ -167,8 +167,8 @@ void UpdateLocationHistoryForRoamer(void)
         sLocationHistory[i][1][MAP_GRP] = sLocationHistory[i][0][MAP_GRP];
         sLocationHistory[i][1][MAP_NUM] = sLocationHistory[i][0][MAP_NUM];
 
-        sLocationHistory[i][0][MAP_GRP] = gSaveBlock1Ptr->location.mapGroup;
-        sLocationHistory[i][0][MAP_NUM] = gSaveBlock1Ptr->location.mapNum;
+        sLocationHistory[i][0][MAP_GRP] = SAVEBLOCK_LOCATION.mapGroup;
+        sLocationHistory[i][0][MAP_NUM] = SAVEBLOCK_LOCATION.mapNum;
     }
 }
 
@@ -260,7 +260,7 @@ bool8 TryStartRoamerEncounter(void)
 
     for (i = 0; i < ROAMER_COUNT; i++)
     {
-        if (IsRoamerAt(i, gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum) == TRUE && (Random() % 4) == 0)
+        if (IsRoamerAt(i, SAVEBLOCK_LOCATION.mapGroup, SAVEBLOCK_LOCATION.mapNum) == TRUE && (Random() % 4) == 0)
         {
             CreateRoamerMonInstance(i);
             gEncounteredRoamerIndex = i;

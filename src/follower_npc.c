@@ -189,7 +189,7 @@ static void TurnNPCIntoFollower(u32 localId, u32 followerFlags, u32 setScript, c
     u32 flag;
     u16 facingDirection = gObjectEvents[eventObjId].facingDirection;
 
-    flag = GetObjectEventFlagIdByLocalIdAndMap(localId, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup);
+    flag = GetObjectEventFlagIdByLocalIdAndMap(localId, SAVEBLOCK_LOCATION.mapNum, SAVEBLOCK_LOCATION.mapGroup);
     // If the object does not have an event flag, don't create follower.
     if (flag == 0)
         return;
@@ -204,11 +204,11 @@ static void TurnNPCIntoFollower(u32 localId, u32 followerFlags, u32 setScript, c
     RemoveObjectEvent(&gObjectEvents[eventObjId]);
     FlagSet(flag);
 
-    npc = *GetObjectEventTemplateByLocalIdAndMap(localId, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup);
+    npc = *GetObjectEventTemplateByLocalIdAndMap(localId, SAVEBLOCK_LOCATION.mapNum, SAVEBLOCK_LOCATION.mapGroup);
     npc.movementType = 0;
     npc.script = script;
     npc.localId = OBJ_EVENT_ID_NPC_FOLLOWER;
-    SetFollowerNPCData(FNPC_DATA_OBJ_ID, TrySpawnObjectEventTemplate(&npc, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, npcX, npcY));
+    SetFollowerNPCData(FNPC_DATA_OBJ_ID, TrySpawnObjectEventTemplate(&npc, SAVEBLOCK_LOCATION.mapNum, SAVEBLOCK_LOCATION.mapGroup, npcX, npcY));
     follower = &gObjectEvents[GetFollowerNPCData(FNPC_DATA_OBJ_ID)];
     MoveObjectEventToMapCoords(follower, npcX, npcY);
     ObjectEventTurn(follower, facingDirection);
@@ -711,7 +711,7 @@ void CreateFollowerNPC(u32 gfx, u32 followerFlags, const u8 *scriptPtr)
         .script = scriptPtr
     };
 
-    SetFollowerNPCData(FNPC_DATA_OBJ_ID, TrySpawnObjectEventTemplate(&npc, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, player->currentCoords.x, player->currentCoords.y));
+    SetFollowerNPCData(FNPC_DATA_OBJ_ID, TrySpawnObjectEventTemplate(&npc, SAVEBLOCK_LOCATION.mapNum, SAVEBLOCK_LOCATION.mapGroup, player->currentCoords.x, player->currentCoords.y));
     follower = &gObjectEvents[GetFollowerNPCData(FNPC_DATA_OBJ_ID)];
     follower->movementType = MOVEMENT_TYPE_NONE;
     gSprites[follower->spriteId].callback = MovementType_None;
@@ -987,7 +987,7 @@ void SetFollowerNPCSprite(u32 spriteIndex)
     SetFollowerNPCData(FNPC_DATA_CURRENT_SPRITE, spriteIndex);
     oldSpriteId = follower->spriteId;
     newGraphicsId = GetFollowerNPCSprite();
-    clone = *GetObjectEventTemplateByLocalIdAndMap(OBJ_EVENT_ID_NPC_FOLLOWER, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup);
+    clone = *GetObjectEventTemplateByLocalIdAndMap(OBJ_EVENT_ID_NPC_FOLLOWER, SAVEBLOCK_LOCATION.mapNum, SAVEBLOCK_LOCATION.mapGroup);
 
     backupFollower = *follower;
     backupFollower.graphicsId = newGraphicsId;
@@ -997,7 +997,7 @@ void SetFollowerNPCSprite(u32 spriteIndex)
     clone.graphicsId = newGraphicsId;
     clone.movementType = 0;
     clone.localId = OBJ_EVENT_ID_NPC_FOLLOWER;
-    SetFollowerNPCData(FNPC_DATA_OBJ_ID, TrySpawnObjectEventTemplate(&clone, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, clone.x, clone.y));
+    SetFollowerNPCData(FNPC_DATA_OBJ_ID, TrySpawnObjectEventTemplate(&clone, SAVEBLOCK_LOCATION.mapNum, SAVEBLOCK_LOCATION.mapGroup, clone.x, clone.y));
     if (GetFollowerNPCData(FNPC_DATA_OBJ_ID) != OBJECT_EVENTS_COUNT)
     {
         follower = &gObjectEvents[GetFollowerNPCObjectId()];
@@ -1193,7 +1193,7 @@ void CreateFollowerNPCAvatar(void)
     }
 
     // Create NPC and store ID.
-    SetFollowerNPCData(FNPC_DATA_OBJ_ID, TrySpawnObjectEventTemplate(&clone, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, clone.x, clone.y));
+    SetFollowerNPCData(FNPC_DATA_OBJ_ID, TrySpawnObjectEventTemplate(&clone, SAVEBLOCK_LOCATION.mapNum, SAVEBLOCK_LOCATION.mapGroup, clone.x, clone.y));
     if (GetFollowerNPCData(FNPC_DATA_OBJ_ID) == OBJECT_EVENTS_COUNT)
     {
         ClearFollowerNPCData();

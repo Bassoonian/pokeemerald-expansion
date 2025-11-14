@@ -1495,7 +1495,7 @@ u8 Unref_TryInitLocalObjectEvent(u8 localId)
         {
             template = &gSaveBlock1Ptr->objectEventTemplates[i];
             if (template->localId == localId && !FlagGet(template->flagId))
-                return InitObjectEventStateFromTemplate(template, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup);
+                return InitObjectEventStateFromTemplate(template, SAVEBLOCK_LOCATION.mapNum, SAVEBLOCK_LOCATION.mapGroup);
         }
     }
     return OBJECT_EVENTS_COUNT;
@@ -1777,7 +1777,7 @@ u8 SpawnSpecialObjectEvent(struct ObjectEventTemplate *objectEventTemplate)
     s16 cameraY;
 
     GetObjectEventMovingCameraOffset(&cameraX, &cameraY);
-    return TrySpawnObjectEventTemplate(objectEventTemplate, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, cameraX, cameraY);
+    return TrySpawnObjectEventTemplate(objectEventTemplate, SAVEBLOCK_LOCATION.mapNum, SAVEBLOCK_LOCATION.mapGroup, cameraX, cameraY);
 }
 
 u8 SpawnSpecialObjectEventParameterized(u16 graphicsId, u8 movementBehavior, u8 localId, s16 x, s16 y, u8 elevation)
@@ -2236,8 +2236,8 @@ void UpdateFollowingPokemon(void)
             .localId = OBJ_EVENT_ID_FOLLOWER,
             .graphicsId = GetGraphicsIdForMon(species, shiny, female),
             .flagId = 0,
-            .x = gSaveBlock1Ptr->pos.x,
-            .y = gSaveBlock1Ptr->pos.y,
+            .x = SAVEBLOCK_POS.x,
+            .y = SAVEBLOCK_POS.y,
             // If player active, copy player elevation
             .elevation = gObjectEvents[objId].active ? gObjectEvents[objId].currentElevation : 3,
             .movementType = MOVEMENT_TYPE_FOLLOW_PLAYER,
@@ -2357,8 +2357,8 @@ bool32 CheckMsgCondition(const struct MsgCondition *cond, struct Pokemon *mon, u
     case MSG_COND_MAPSEC:
         return (cond->data.raw == gMapHeader.regionMapSectionId);
     case MSG_COND_MAP:
-        return (gSaveBlock1Ptr->location.mapGroup == cond->data.bytes[0] &&
-                gSaveBlock1Ptr->location.mapNum == cond->data.bytes[1]);
+        return (SAVEBLOCK_LOCATION.mapGroup == cond->data.bytes[0] &&
+                SAVEBLOCK_LOCATION.mapNum == cond->data.bytes[1]);
     case MSG_COND_ON_MB:
         return (obj->currentMetatileBehavior == cond->data.bytes[0] ||
                 obj->currentMetatileBehavior == cond->data.bytes[1]);
@@ -2602,10 +2602,10 @@ void GetFollowerAction(struct ScriptContext *ctx) // Essentially a big switch fo
 // Sprite callback for light sprites
 void UpdateLightSprite(struct Sprite *sprite)
 {
-    s16 left =   gSaveBlock1Ptr->pos.x - 2;
-    s16 right =  gSaveBlock1Ptr->pos.x + 17;
-    s16 top =    gSaveBlock1Ptr->pos.y;
-    s16 bottom = gSaveBlock1Ptr->pos.y + 15;
+    s16 left =   SAVEBLOCK_POS.x - 2;
+    s16 right =  SAVEBLOCK_POS.x + 17;
+    s16 top =    SAVEBLOCK_POS.y;
+    s16 bottom = SAVEBLOCK_POS.y + 15;
     s16 x = sprite->sLightXPos;
     s16 y = sprite->sLightYPos;
     u16 sheetTileStart;
@@ -2718,10 +2718,10 @@ void TrySpawnLightSprites(s16 camX, s16 camY)
 {
     u32 i;
     u8 objectCount;
-    s16 left = gSaveBlock1Ptr->pos.x - 2;
-    s16 right = gSaveBlock1Ptr->pos.x + MAP_OFFSET_W + 2;
-    s16 top = gSaveBlock1Ptr->pos.y;
-    s16 bottom = gSaveBlock1Ptr->pos.y + MAP_OFFSET_H + 2;
+    s16 left = SAVEBLOCK_POS.x - 2;
+    s16 right = SAVEBLOCK_POS.x + MAP_OFFSET_W + 2;
+    s16 top = SAVEBLOCK_POS.y;
+    s16 bottom = SAVEBLOCK_POS.y + MAP_OFFSET_H + 2;
     if (gMapHeader.events == NULL)
         return;
 
@@ -2752,10 +2752,10 @@ void TrySpawnObjectEvents(s16 cameraX, s16 cameraY)
 
     if (gMapHeader.events != NULL)
     {
-        s16 left = gSaveBlock1Ptr->pos.x - 2;
-        s16 right = gSaveBlock1Ptr->pos.x + MAP_OFFSET_W + 2;
-        s16 top = gSaveBlock1Ptr->pos.y;
-        s16 bottom = gSaveBlock1Ptr->pos.y + MAP_OFFSET_H + 2;
+        s16 left = SAVEBLOCK_POS.x - 2;
+        s16 right = SAVEBLOCK_POS.x + MAP_OFFSET_W + 2;
+        s16 top = SAVEBLOCK_POS.y;
+        s16 bottom = SAVEBLOCK_POS.y + MAP_OFFSET_H + 2;
 
         if (CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE)
             objectCount = GetNumBattlePyramidObjectEvents();
@@ -2775,7 +2775,7 @@ void TrySpawnObjectEvents(s16 cameraX, s16 cameraY)
                 if (template->graphicsId == OBJ_EVENT_GFX_LIGHT_SPRITE)
                     SpawnLightSprite(npcX, npcY, cameraX, cameraY, template->trainerRange_berryTreeId); // light sprite instead
                 else
-                    TrySpawnObjectEventTemplate(template, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, cameraX, cameraY);
+                    TrySpawnObjectEventTemplate(template, SAVEBLOCK_LOCATION.mapNum, SAVEBLOCK_LOCATION.mapGroup, cameraX, cameraY);
             }
         }
     }
@@ -2808,10 +2808,10 @@ void RemoveObjectEventsOutsideView(void)
 
 static void RemoveObjectEventIfOutsideView(struct ObjectEvent *objectEvent)
 {
-    s16 left =   gSaveBlock1Ptr->pos.x - 2;
-    s16 right =  gSaveBlock1Ptr->pos.x + 17;
-    s16 top =    gSaveBlock1Ptr->pos.y;
-    s16 bottom = gSaveBlock1Ptr->pos.y + 16;
+    s16 left =   SAVEBLOCK_POS.x - 2;
+    s16 right =  SAVEBLOCK_POS.x + 17;
+    s16 top =    SAVEBLOCK_POS.y;
+    s16 bottom = SAVEBLOCK_POS.y + 16;
 
     if (objectEvent->currentCoords.x >= left && objectEvent->currentCoords.x <= right
      && objectEvent->currentCoords.y >= top && objectEvent->currentCoords.y <= bottom)
@@ -3599,7 +3599,7 @@ const struct ObjectEventTemplate *GetObjectEventTemplateByLocalIdAndMap(u8 local
     const struct MapHeader *mapHeader;
     u8 count;
 
-    if (gSaveBlock1Ptr->location.mapNum == mapNum && gSaveBlock1Ptr->location.mapGroup == mapGroup)
+    if (SAVEBLOCK_LOCATION.mapNum == mapNum && SAVEBLOCK_LOCATION.mapGroup == mapGroup)
     {
         templates = gSaveBlock1Ptr->objectEventTemplates;
         count = gMapHeader.events->objectEventCount;
@@ -3629,8 +3629,8 @@ struct ObjectEventTemplate *GetBaseTemplateForObjectEvent(const struct ObjectEve
 {
     int i;
 
-    if (objectEvent->mapNum != gSaveBlock1Ptr->location.mapNum
-     || objectEvent->mapGroup != gSaveBlock1Ptr->location.mapGroup)
+    if (objectEvent->mapNum != SAVEBLOCK_LOCATION.mapNum
+     || objectEvent->mapGroup != SAVEBLOCK_LOCATION.mapGroup)
         return NULL;
 
     for (i = 0; i < OBJECT_EVENT_TEMPLATES_COUNT; i++)
@@ -6524,8 +6524,8 @@ static void MoveCoordsInDirection(u32 dir, s16 *x, s16 *y, s16 deltaX, s16 delta
 
 void GetMapCoordsFromSpritePos(s16 x, s16 y, s16 *destX, s16 *destY)
 {
-    *destX = (x - gSaveBlock1Ptr->pos.x) << 4;
-    *destY = (y - gSaveBlock1Ptr->pos.y) << 4;
+    *destX = (x - SAVEBLOCK_POS.x) << 4;
+    *destY = (y - SAVEBLOCK_POS.y) << 4;
     *destX -= gTotalCameraPixelOffsetX;
     *destY -= gTotalCameraPixelOffsetY;
 }
@@ -6546,8 +6546,8 @@ void SetSpritePosToMapCoords(s16 mapX, s16 mapY, s16 *destX, s16 *destY)
     if (gFieldCamera.y < 0)
         dy -= 16;
 
-    *destX = ((mapX - gSaveBlock1Ptr->pos.x) << 4) + dx;
-    *destY = ((mapY - gSaveBlock1Ptr->pos.y) << 4) + dy;
+    *destX = ((mapX - SAVEBLOCK_POS.x) << 4) + dx;
+    *destY = ((mapY - SAVEBLOCK_POS.y) << 4) + dy;
 }
 
 void SetSpritePosToOffsetMapCoords(s16 *x, s16 *y, s16 dx, s16 dy)
@@ -9931,7 +9931,7 @@ void GroundEffect_SpawnOnTallGrass(struct ObjectEvent *objEvent, struct Sprite *
     gFieldEffectArguments[3] = 2; // priority
     gFieldEffectArguments[4] = objEvent->localId << 8 | objEvent->mapNum;
     gFieldEffectArguments[5] = objEvent->mapGroup;
-    gFieldEffectArguments[6] = (u8)gSaveBlock1Ptr->location.mapNum << 8 | (u8)gSaveBlock1Ptr->location.mapGroup;
+    gFieldEffectArguments[6] = (u8)SAVEBLOCK_LOCATION.mapNum << 8 | (u8)SAVEBLOCK_LOCATION.mapGroup;
     gFieldEffectArguments[7] = TRUE; // skip to end of anim
     FieldEffectStart(FLDEFF_TALL_GRASS);
 }
@@ -9944,7 +9944,7 @@ void GroundEffect_StepOnTallGrass(struct ObjectEvent *objEvent, struct Sprite *s
     gFieldEffectArguments[3] = 2; // priority
     gFieldEffectArguments[4] = objEvent->localId << 8 | objEvent->mapNum;
     gFieldEffectArguments[5] = objEvent->mapGroup;
-    gFieldEffectArguments[6] = (u8)gSaveBlock1Ptr->location.mapNum << 8 | (u8)gSaveBlock1Ptr->location.mapGroup;
+    gFieldEffectArguments[6] = (u8)SAVEBLOCK_LOCATION.mapNum << 8 | (u8)SAVEBLOCK_LOCATION.mapGroup;
     gFieldEffectArguments[7] = FALSE; // don't skip to end of anim
     FieldEffectStart(FLDEFF_TALL_GRASS);
 }
@@ -9957,7 +9957,7 @@ void GroundEffect_SpawnOnLongGrass(struct ObjectEvent *objEvent, struct Sprite *
     gFieldEffectArguments[3] = 2;
     gFieldEffectArguments[4] = objEvent->localId << 8 | objEvent->mapNum;
     gFieldEffectArguments[5] = objEvent->mapGroup;
-    gFieldEffectArguments[6] = (u8)gSaveBlock1Ptr->location.mapNum << 8 | (u8)gSaveBlock1Ptr->location.mapGroup;
+    gFieldEffectArguments[6] = (u8)SAVEBLOCK_LOCATION.mapNum << 8 | (u8)SAVEBLOCK_LOCATION.mapGroup;
     gFieldEffectArguments[7] = 1;
     FieldEffectStart(FLDEFF_LONG_GRASS);
 }
@@ -9970,7 +9970,7 @@ void GroundEffect_StepOnLongGrass(struct ObjectEvent *objEvent, struct Sprite *s
     gFieldEffectArguments[3] = 2;
     gFieldEffectArguments[4] = (objEvent->localId << 8) | objEvent->mapNum;
     gFieldEffectArguments[5] = objEvent->mapGroup;
-    gFieldEffectArguments[6] = (u8)gSaveBlock1Ptr->location.mapNum << 8 | (u8)gSaveBlock1Ptr->location.mapGroup;
+    gFieldEffectArguments[6] = (u8)SAVEBLOCK_LOCATION.mapNum << 8 | (u8)SAVEBLOCK_LOCATION.mapGroup;
     gFieldEffectArguments[7] = 0;
     FieldEffectStart(FLDEFF_LONG_GRASS);
 }

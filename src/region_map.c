@@ -984,16 +984,16 @@ static void InitMapBasedOnPlayerLocation(void)
     u16 xOnMap;
     struct WarpData *warp;
 
-    if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_SS_TIDAL_CORRIDOR)
-        && (gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_SS_TIDAL_CORRIDOR)
-            || gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_SS_TIDAL_LOWER_DECK)
-            || gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_SS_TIDAL_ROOMS)))
+    if (SAVEBLOCK_LOCATION.mapGroup == MAP_GROUP(MAP_SS_TIDAL_CORRIDOR)
+        && (SAVEBLOCK_LOCATION.mapNum == MAP_NUM(MAP_SS_TIDAL_CORRIDOR)
+            || SAVEBLOCK_LOCATION.mapNum == MAP_NUM(MAP_SS_TIDAL_LOWER_DECK)
+            || SAVEBLOCK_LOCATION.mapNum == MAP_NUM(MAP_SS_TIDAL_ROOMS)))
     {
         RegionMap_InitializeStateBasedOnSSTidalLocation();
         return;
     }
 
-    switch (GetMapTypeByGroupAndId(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum))
+    switch (GetMapTypeByGroupAndId(SAVEBLOCK_LOCATION.mapGroup, SAVEBLOCK_LOCATION.mapNum))
     {
     default:
     case MAP_TYPE_TOWN:
@@ -1005,8 +1005,8 @@ static void InitMapBasedOnPlayerLocation(void)
         sRegionMap->playerIsInCave = FALSE;
         mapWidth = gMapHeader.mapLayout->width;
         mapHeight = gMapHeader.mapLayout->height;
-        x = gSaveBlock1Ptr->pos.x;
-        y = gSaveBlock1Ptr->pos.y;
+        x = SAVEBLOCK_POS.x;
+        y = SAVEBLOCK_POS.y;
         if (sRegionMap->mapSecId == MAPSEC_UNDERWATER_SEAFLOOR_CAVERN || sRegionMap->mapSecId == MAPSEC_UNDERWATER_MARINE_CAVE)
             sRegionMap->playerIsInCave = TRUE;
         break;
@@ -1014,13 +1014,13 @@ static void InitMapBasedOnPlayerLocation(void)
     case MAP_TYPE_UNKNOWN:
         if (gMapHeader.allowEscaping)
         {
-            mapHeader = Overworld_GetMapHeaderByGroupAndId(gSaveBlock1Ptr->escapeWarp.mapGroup, gSaveBlock1Ptr->escapeWarp.mapNum);
+            mapHeader = Overworld_GetMapHeaderByGroupAndId(SAVEBLOCK_ESCAPE_WARP.mapGroup, SAVEBLOCK_ESCAPE_WARP.mapNum);
             sRegionMap->mapSecId = mapHeader->regionMapSectionId;
             sRegionMap->playerIsInCave = TRUE;
             mapWidth = mapHeader->mapLayout->width;
             mapHeight = mapHeader->mapLayout->height;
-            x = gSaveBlock1Ptr->escapeWarp.x;
-            y = gSaveBlock1Ptr->escapeWarp.y;
+            x = SAVEBLOCK_ESCAPE_WARP.x;
+            y = SAVEBLOCK_ESCAPE_WARP.y;
         }
         else
         {
@@ -1033,24 +1033,24 @@ static void InitMapBasedOnPlayerLocation(void)
         }
         break;
     case MAP_TYPE_SECRET_BASE:
-        mapHeader = Overworld_GetMapHeaderByGroupAndId((u16)gSaveBlock1Ptr->dynamicWarp.mapGroup, (u16)gSaveBlock1Ptr->dynamicWarp.mapNum);
+        mapHeader = Overworld_GetMapHeaderByGroupAndId((u16)SAVEBLOCK_DYNAMIC_WARP.mapGroup, (u16)SAVEBLOCK_DYNAMIC_WARP.mapNum);
         sRegionMap->mapSecId = mapHeader->regionMapSectionId;
         sRegionMap->playerIsInCave = TRUE;
         mapWidth = mapHeader->mapLayout->width;
         mapHeight = mapHeader->mapLayout->height;
-        x = gSaveBlock1Ptr->dynamicWarp.x;
-        y = gSaveBlock1Ptr->dynamicWarp.y;
+        x = SAVEBLOCK_DYNAMIC_WARP.x;
+        y = SAVEBLOCK_DYNAMIC_WARP.y;
         break;
     case MAP_TYPE_INDOOR:
         sRegionMap->mapSecId = gMapHeader.regionMapSectionId;
         if (sRegionMap->mapSecId != MAPSEC_DYNAMIC)
         {
-            warp = &gSaveBlock1Ptr->escapeWarp;
+            warp = &SAVEBLOCK_ESCAPE_WARP;
             mapHeader = Overworld_GetMapHeaderByGroupAndId(warp->mapGroup, warp->mapNum);
         }
         else
         {
-            warp = &gSaveBlock1Ptr->dynamicWarp;
+            warp = &SAVEBLOCK_DYNAMIC_WARP;
             mapHeader = Overworld_GetMapHeaderByGroupAndId(warp->mapGroup, warp->mapNum);
             sRegionMap->mapSecId = mapHeader->regionMapSectionId;
         }
@@ -1100,15 +1100,15 @@ static void InitMapBasedOnPlayerLocation(void)
     case MAPSEC_ROUTE_126:
     case MAPSEC_UNDERWATER_126:
         x = 0;
-        if (gSaveBlock1Ptr->pos.x > 32)
+        if (SAVEBLOCK_POS.x > 32)
             x++;
-        if (gSaveBlock1Ptr->pos.x > 51)
+        if (SAVEBLOCK_POS.x > 51)
             x++;
 
         y = 0;
-        if (gSaveBlock1Ptr->pos.y > 37)
+        if (SAVEBLOCK_POS.y > 37)
             y++;
-        if (gSaveBlock1Ptr->pos.y > 56)
+        if (SAVEBLOCK_POS.y > 56)
             y++;
         break;
     case MAPSEC_ROUTE_121:

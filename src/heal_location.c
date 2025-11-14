@@ -56,7 +56,7 @@ const struct HealLocation *GetHealLocation(u32 index)
 static bool32 IsLastHealLocation(u32 healLocation)
 {
     const struct HealLocation *loc = GetHealLocation(healLocation);
-    const struct WarpData *warpData = &gSaveBlock1Ptr->lastHealLocation;
+    const struct WarpData *warpData = &SAVEBLOCK_LAST_HEAL_LOCATION;
 
     return warpData->mapGroup == loc->mapGroup
         && warpData->mapNum == loc->mapNum
@@ -86,12 +86,12 @@ u32 GetHealNpcLocalId(u32 healLocationId)
 
 void SetWhiteoutRespawnWarpAndHealerNPC(struct WarpData *warp)
 {
-    u32 healLocationId = GetHealLocationIndexByWarpData(&gSaveBlock1Ptr->lastHealLocation);
+    u32 healLocationId = GetHealLocationIndexByWarpData(&SAVEBLOCK_LAST_HEAL_LOCATION);
     u32 healNpcLocalId = GetHealNpcLocalId(healLocationId);
 
     if (!healNpcLocalId)
     {
-        *(warp) = gSaveBlock1Ptr->lastHealLocation;
+        *(warp) = SAVEBLOCK_LAST_HEAL_LOCATION;
         return;
     }
 

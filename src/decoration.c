@@ -1183,15 +1183,15 @@ static void DecorationItemsMenuAction_Cancel(u8 taskId)
 
 static void SetInitialPositions(u8 taskId)
 {
-    gTasks[taskId].tInitialX = gSaveBlock1Ptr->pos.x;
-    gTasks[taskId].tInitialY = gSaveBlock1Ptr->pos.y;
+    gTasks[taskId].tInitialX = SAVEBLOCK_POS.x;
+    gTasks[taskId].tInitialY = SAVEBLOCK_POS.y;
     PlayerGetDestCoords(&gTasks[taskId].tCursorX, &gTasks[taskId].tCursorY);
 }
 
 static void WarpToInitialPosition(u8 taskId)
 {
     DrawWholeMapView();
-    SetWarpDestination(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum, WARP_ID_NONE, gTasks[taskId].tInitialX, gTasks[taskId].tInitialY);
+    SetWarpDestination(SAVEBLOCK_LOCATION.mapGroup, SAVEBLOCK_LOCATION.mapNum, WARP_ID_NONE, gTasks[taskId].tInitialX, gTasks[taskId].tInitialY);
     WarpIntoMap();
 }
 
@@ -1308,9 +1308,9 @@ void SetDecoration(void)
             gSpecialVar_0x8005 = gMapHeader.events->objectEvents[j].localId;
             gSpecialVar_0x8006 = sCurDecorMapX;
             gSpecialVar_0x8007 = sCurDecorMapY;
-            TrySpawnObjectEvent(gSpecialVar_0x8005, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup);
-            TryMoveObjectEventToMapCoords(gSpecialVar_0x8005, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, gSpecialVar_0x8006, gSpecialVar_0x8007);
-            TryOverrideObjectEventTemplateCoords(gSpecialVar_0x8005, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup);
+            TrySpawnObjectEvent(gSpecialVar_0x8005, SAVEBLOCK_LOCATION.mapNum, SAVEBLOCK_LOCATION.mapGroup);
+            TryMoveObjectEventToMapCoords(gSpecialVar_0x8005, SAVEBLOCK_LOCATION.mapNum, SAVEBLOCK_LOCATION.mapGroup, gSpecialVar_0x8006, gSpecialVar_0x8007);
+            TryOverrideObjectEventTemplateCoords(gSpecialVar_0x8005, SAVEBLOCK_LOCATION.mapNum, SAVEBLOCK_LOCATION.mapGroup);
             break;
         }
     }

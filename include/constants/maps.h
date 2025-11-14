@@ -5,7 +5,7 @@
 
 enum
 {
-    // Warps using this map will instead use the warp data stored in gSaveBlock1Ptr->dynamicWarp.
+    // Warps using this map will instead use the warp data stored in SAVEBLOCK_DYNAMIC_WARP.
     // Used for warps that need to change destinations, e.g. when stepping off an elevator.
     MAP_DYNAMIC = (0x7F | (0x7F << 8)),
 

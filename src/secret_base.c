@@ -446,7 +446,7 @@ void EnterSecretBase(void)
 {
     CreateTask(Task_EnterSecretBase, 0);
     FadeScreen(FADE_TO_BLACK, 0);
-    SetDynamicWarp(0, gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum, WARP_ID_NONE);
+    SetDynamicWarp(0, SAVEBLOCK_LOCATION.mapGroup, SAVEBLOCK_LOCATION.mapNum, WARP_ID_NONE);
 }
 
 bool8 SecretBaseMapPopupEnabled(void)
@@ -488,8 +488,8 @@ static void Task_EnterNewlyCreatedSecretBase(u8 taskId)
     {
         s8 secretBaseGroup = SECRET_BASE_ID_TO_GROUP(sCurSecretBaseId);
         SetWarpDestination(
-            gSaveBlock1Ptr->location.mapGroup,
-            gSaveBlock1Ptr->location.mapNum,
+            SAVEBLOCK_LOCATION.mapGroup,
+            SAVEBLOCK_LOCATION.mapNum,
             WARP_ID_NONE,
             GET_BASE_COMPUTER_X(secretBaseGroup),
             GET_BASE_COMPUTER_Y(secretBaseGroup));
@@ -508,8 +508,8 @@ void EnterNewlyCreatedSecretBase(void)
 
 bool8 CurMapIsSecretBase(void)
 {
-    if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_SECRET_BASE_RED_CAVE1)
-     && (u8)gSaveBlock1Ptr->location.mapNum <= MAP_NUM(MAP_SECRET_BASE_SHRUB4))
+    if (SAVEBLOCK_LOCATION.mapGroup == MAP_GROUP(MAP_SECRET_BASE_RED_CAVE1)
+     && (u8)SAVEBLOCK_LOCATION.mapNum <= MAP_NUM(MAP_SECRET_BASE_SHRUB4))
         return TRUE;
     else
         return FALSE;
@@ -602,25 +602,25 @@ void InitSecretBaseDecorationSprites(void)
                 VarSet(gSpecialVar_Result, gDecorations[decorations[i]].tiles[0]);
                 gSpecialVar_Result = gMapHeader.events->objectEvents[objectEventId].localId;
                 FlagClear(FLAG_DECORATION_1 + gSpecialVar_0x8004);
-                TrySpawnObjectEvent(gSpecialVar_Result, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup);
-                TryMoveObjectEventToMapCoords(gSpecialVar_Result, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, gSpecialVar_0x8006, gSpecialVar_0x8007);
-                TryOverrideObjectEventTemplateCoords(gSpecialVar_Result, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup);
+                TrySpawnObjectEvent(gSpecialVar_Result, SAVEBLOCK_LOCATION.mapNum, SAVEBLOCK_LOCATION.mapGroup);
+                TryMoveObjectEventToMapCoords(gSpecialVar_Result, SAVEBLOCK_LOCATION.mapNum, SAVEBLOCK_LOCATION.mapGroup, gSpecialVar_0x8006, gSpecialVar_0x8007);
+                TryOverrideObjectEventTemplateCoords(gSpecialVar_Result, SAVEBLOCK_LOCATION.mapNum, SAVEBLOCK_LOCATION.mapGroup);
                 if (CurMapIsSecretBase() == TRUE && VarGet(VAR_CURRENT_SECRET_BASE) != 0)
                 {
                     if (category == DECORCAT_DOLL)
                     {
                         OverrideSecretBaseDecorationSpriteScript(
                             gSpecialVar_Result,
-                            gSaveBlock1Ptr->location.mapNum,
-                            gSaveBlock1Ptr->location.mapGroup,
+                            SAVEBLOCK_LOCATION.mapNum,
+                            SAVEBLOCK_LOCATION.mapGroup,
                             DECORCAT_DOLL);
                     }
                     else if (category == DECORCAT_CUSHION)
                     {
                         OverrideSecretBaseDecorationSpriteScript(
                             gSpecialVar_Result,
-                            gSaveBlock1Ptr->location.mapNum,
-                            gSaveBlock1Ptr->location.mapGroup,
+                            SAVEBLOCK_LOCATION.mapNum,
+                            SAVEBLOCK_LOCATION.mapGroup,
                             DECORCAT_CUSHION);
                     }
                 }
@@ -643,8 +643,8 @@ void HideSecretBaseDecorationSprites(void)
         {
             RemoveObjectEventByLocalIdAndMap(
                 gMapHeader.events->objectEvents[objectEventId].localId,
-                gSaveBlock1Ptr->location.mapNum,
-                gSaveBlock1Ptr->location.mapGroup);
+                SAVEBLOCK_LOCATION.mapNum,
+                SAVEBLOCK_LOCATION.mapGroup);
             FlagSet(flag);
         }
     }

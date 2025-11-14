@@ -1657,13 +1657,13 @@ static void InitFrontierMapSprites(void)
     id = GetCurrentRegionMapSectionId();
     if (id == MAPSEC_BATTLE_FRONTIER || id == MAPSEC_ARTISAN_CAVE)
     {
-        s8 mapNum = gSaveBlock1Ptr->location.mapNum;
+        s8 mapNum = SAVEBLOCK_LOCATION.mapNum;
 
         if (mapNum == MAP_NUM(MAP_BATTLE_FRONTIER_OUTSIDE_WEST)
             || (mapNum == MAP_NUM(MAP_BATTLE_FRONTIER_OUTSIDE_EAST) && (x = 55)))
         {
-            x += gSaveBlock1Ptr->pos.x;
-            y = gSaveBlock1Ptr->pos.y;
+            x += SAVEBLOCK_POS.x;
+            y = SAVEBLOCK_POS.y;
 
             x /= 8;
             y /= 8;
@@ -1681,12 +1681,12 @@ static void InitFrontierMapSprites(void)
             else
             {
                 // Handle Artisan Cave.
-                if (gSaveBlock1Ptr->escapeWarp.mapNum == MAP_NUM(MAP_BATTLE_FRONTIER_OUTSIDE_EAST))
-                    x = gSaveBlock1Ptr->escapeWarp.x + 55;
+                if (SAVEBLOCK_ESCAPE_WARP.mapNum == MAP_NUM(MAP_BATTLE_FRONTIER_OUTSIDE_EAST))
+                    x = SAVEBLOCK_ESCAPE_WARP.x + 55;
                 else
-                    x = gSaveBlock1Ptr->escapeWarp.x;
+                    x = SAVEBLOCK_ESCAPE_WARP.x;
 
-                y = gSaveBlock1Ptr->escapeWarp.y;
+                y = SAVEBLOCK_ESCAPE_WARP.y;
 
                 x /= 8;
                 y /= 8;

@@ -1591,8 +1591,8 @@ void StartUnionRoomBattle(u16 battleFlags)
 static void WarpForWirelessMinigame(u16 linkService, u16 x, u16 y)
 {
     VarSet(VAR_CABLE_CLUB_STATE, linkService);
-    SetWarpDestination(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum, WARP_ID_NONE, x, y);
-    SetDynamicWarpWithCoords(0, gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum, WARP_ID_NONE, x, y);
+    SetWarpDestination(SAVEBLOCK_LOCATION.mapGroup, SAVEBLOCK_LOCATION.mapNum, WARP_ID_NONE, x, y);
+    SetDynamicWarpWithCoords(0, SAVEBLOCK_LOCATION.mapGroup, SAVEBLOCK_LOCATION.mapNum, WARP_ID_NONE, x, y);
     WarpIntoMap();
 }
 
@@ -4312,8 +4312,8 @@ static bool32 PollPartnerYesNoResponse(struct WirelessLink_URoom *data)
 
 bool32 InUnionRoom(void)
 {
-    return gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_UNION_ROOM)
-        && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_UNION_ROOM)
+    return SAVEBLOCK_LOCATION.mapGroup == MAP_GROUP(MAP_UNION_ROOM)
+        && SAVEBLOCK_LOCATION.mapNum == MAP_NUM(MAP_UNION_ROOM)
         ? TRUE : FALSE;
 }
 
