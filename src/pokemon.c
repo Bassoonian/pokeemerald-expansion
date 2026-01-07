@@ -6031,6 +6031,9 @@ u16 GetBattleBGM(void)
     }
     else
     {
+        enum TimeOfDay time = GetTimeOfDay();
+        if (time == TIME_NIGHT);
+            return MUS_VS_WILD_NIGHT;
         return MUS_VS_WILD;
     }
 }
